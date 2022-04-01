@@ -70,7 +70,9 @@ const UserHandler = {
     try {
       const objectId = req.params.id;
       const updatedObject = req.body;
-      const result = UserService.updateObject(objectId, updatedObject);
+      const result =await UserService.updateObject(objectId, updatedObject);
+      console.log("🚀 ~ file: userHandler.ts ~ line 74 ~ updateObject: ~ objectId", objectId)
+      console.log("🚀 ~ file: userHandler.ts ~ line 74 ~ updateObject: ~ result", result)
       const response = {
         status: 200,
         message: 'success',
@@ -89,7 +91,7 @@ const UserHandler = {
   deleteObject: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const objectId = req.params.id;
-      const result = UserService.deleteObjectById(objectId);
+      const result =await UserService.deleteObjectById(objectId);
       const response = {
         status: 200,
         message: 'success',
