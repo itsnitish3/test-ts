@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from 'express'
-import { UserService } from '../services'
-import User from '../models/userModel'
+import { NextFunction, Request, Response } from 'express';
+import { UserService } from '../services';
+import User from '../models/userModel';
 
 // class UserHandler {
 //     static async dis(req: Request, res: Response, next: NextFunction) {
@@ -8,60 +8,104 @@ import User from '../models/userModel'
 //     }
 // }
 
-
 const UserHandler = {
-    create: (req: Request, res: Response, next: NextFunction): void => {
-        const data = req.body;
-
-        UserService.addObject(data, (err: any, savedObj: any) => {
-            if (err) {
-                // next(err);
-                return res.status(500).send(err);
-            } else {
-                return res.send(savedObj);
-            }
-        });
-    },
-    getAll: async (req: Request, res: Response, next: NextFunction) => {
-        const data = await UserService.getAll()
-        res.send(data);
-    },
-    getObjectById: (req: Request, res: Response, next: NextFunction): void => {
-        const objectId = req.params.id;
-        const selectFrom = req.query.selectFrom||{};
-
-        UserService.getObjectById(objectId, selectFrom, (err: any, object: any) => {
-            if (err) {
-                return res.status(500).send(err);
-            } else {
-                return res.send(object);
-            }
-        });
-    },
-    updateObject: (req: Request, res: Response, next: NextFunction): void => {
-        const objectId = req.params.id;
-        const updatedObject = req.body;
-
-        UserService.updateObject(objectId, updatedObject, (err: any, object: any) => {
-            if (err) {
-                return res.status(500).send(err);
-            } else {
-                return res.send(object);
-            }
-        });
-    },
-    deleteObject: (req: Request, res: Response, next: NextFunction): void => {
-        const objectId = req.params.id;
-
-        UserService.deleteObjectById(objectId, (err: any, object: any) => {
-            if (err) {
-                return res.status(500).send(err);
-            } else {
-                return res.send(object);
-            }
-        });
+  create: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = req.body;
+      const result = await UserService.addObject(data);
+      const response = {
+        status: 200,
+        message: 'success',
+        data: result,
+      };
+      return res.send(response);
+    } catch (error) {
+      const response = {
+        status: 400,
+        message: 'failure',
+        data: null,
+      };
+      return res.send(response);
     }
-}
+  },
+  getAll: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const result = await UserService.getAll();
+      const response = {
+        status: 200,
+        message: 'success',
+        data: result,
+      };
+      return res.send(response);
+    } catch (error) {
+      const response = {
+        status: 400,
+        message: 'failure',
+        data: null,
+      };
+      return res.send(response);
+    }
+  },
+  getObjectById: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const objectId = req.params.id;
+      const selectFrom = req.query.selectFrom || {};
+      const result = await UserService.getObjectById(objectId, selectFrom);
+      const response = {
+        status: 200,
+        message: 'success',
+        data: result,
+      };
+      return res.send(response);
+    } catch (error) {
+      const response = {
+        status: 400,
+        message: 'failure',
+        data: null,
+      };
+      return res.send(response);
+    }
+  },
+  updateObject: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const objectId = req.params.id;
+      const updatedObject = req.body;
+      const result = UserService.updateObject(objectId, updatedObject);
+      const response = {
+        status: 200,
+        message: 'success',
+        data: result,
+      };
+      return res.send(response);
+    } catch (error) {
+      const response = {
+        status: 400,
+        message: 'failure',
+        data: null,
+      };
+      return res.send(response);
+    }
+  },
+  deleteObject: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const objectId = req.params.id;
+      const result = UserService.deleteObjectById(objectId);
+      const response = {
+        status: 200,
+        message: 'success',
+        data: result,
+      };
+      return res.send(response);
+    } catch (error) {
+      const response = {
+        status: 400,
+        message: 'failure',
+        data: null,
+      };
+      return res.send(response);
+    }
+  },
+};
 
-export default UserHandler
+export default UserHandler;
 // console.log(UserHandler.getAll())
