@@ -71,8 +71,6 @@ const UserHandler = {
       const objectId = req.params.id;
       const updatedObject = req.body;
       const result =await UserService.updateObject(objectId, updatedObject);
-      console.log("🚀 ~ file: userHandler.ts ~ line 74 ~ updateObject: ~ objectId", objectId)
-      console.log("🚀 ~ file: userHandler.ts ~ line 74 ~ updateObject: ~ result", result)
       const response = {
         status: 200,
         message: 'success',
@@ -110,4 +108,3 @@ const UserHandler = {
 };
 
 export default UserHandler;
-// console.log(UserHandler.getAll())
